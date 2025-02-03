@@ -3,20 +3,24 @@
 {% block content %}
 <h1 class="mb-4">Expense Dashboard</h1>
 
+<!-- Pie Chart for Expenses by Category -->
 <div class="card mx-auto mb-4" style="max-width: 400px;">
   <div class="card-body text-center">
     <canvas id="expenseChart" style="max-width: 300px; max-height: 300px; width: 100%;"></canvas>
   </div>
 </div>
 
+<!-- Bar Chart for Monthly Expenses -->
 <div class="card mx-auto" style="max-width: 600px;">
   <div class="card-body">
     <canvas id="monthlyExpensesChart" style="width: 100%; height: 300px;"></canvas>
   </div>
 </div>
 
+<!-- Load Chart.js from CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  // Pie Chart for Expenses by Category
   const labels = {{ labels|tojson }};
   const dataValues = {{ values|tojson }};
   const ctx = document.getElementById('expenseChart').getContext('2d');
@@ -61,9 +65,9 @@
     }
   });
 
-  const monthlyLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const monthlyData = [120, 150, 100, 170, 90, 130, 160, 140, 180, 110, 95, 125];
-
+  // Bar Chart for Monthly Expenses using dynamic data from the backend
+  const monthlyLabels = {{ monthlyLabels|tojson }};
+  const monthlyData = {{ monthlyData|tojson }};
   const barCtx = document.getElementById('monthlyExpensesChart').getContext('2d');
   const monthlyExpensesChart = new Chart(barCtx, {
     type: 'bar',
