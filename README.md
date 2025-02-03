@@ -146,7 +146,8 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-For further inquiries or suggestions 
+For further inquiries or suggestions :
+Here at Github
 
 ---
 
