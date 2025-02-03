@@ -2,15 +2,25 @@
 
 {% block content %}
 <h1 class="mb-4">Expense Dashboard</h1>
-<div class="card mx-auto" style="max-width: 400px;">
+
+<!-- Pie Chart for Expenses by Category -->
+<div class="card mx-auto mb-4" style="max-width: 400px;">
   <div class="card-body text-center">
     <canvas id="expenseChart" style="max-width: 300px; max-height: 300px; width: 100%;"></canvas>
+  </div>
+</div>
+
+<!-- Bar Chart for Monthly Expenses -->
+<div class="card mx-auto" style="max-width: 600px;">
+  <div class="card-body">
+    <canvas id="monthlyExpensesChart" style="width: 100%; height: 300px;"></canvas>
   </div>
 </div>
 
 <!-- Chart.js from CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  // Pie Chart for Expenses by Category
   const labels = {{ labels|tojson }};
   const dataValues = {{ values|tojson }};
   const ctx = document.getElementById('expenseChart').getContext('2d');
@@ -50,6 +60,43 @@
         title: {
           display: true,
           text: 'Expenses by Category'
+        }
+      }
+    }
+  });
+
+  // Bar Chart for Monthly Expenses
+  // (Replace with dynamic data from backend in a real application)
+  const monthlyLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const monthlyData = [120, 150, 100, 170, 90, 130, 160, 140, 180, 110, 95, 125];
+
+  const barCtx = document.getElementById('monthlyExpensesChart').getContext('2d');
+  const monthlyExpensesChart = new Chart(barCtx, {
+    type: 'bar',
+    data: {
+      labels: monthlyLabels,
+      datasets: [{
+        label: 'Monthly Expenses',
+        data: monthlyData,
+        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top'
+        },
+        title: {
+          display: true,
+          text: 'Monthly Expenses Overview'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
         }
       }
     }
