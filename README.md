@@ -1,7 +1,6 @@
 # Expense Tracker App
 
-A professional full-stack web application for managing personal expenses. This app includes a public landing page, secure user authentication, expense management with filtering, dashboard visualization using Chart.js, and CSV export functionality. It’s an excellent project for showcasing modern web development skills on your CV.
-
+A professional full-stack web application for managing personal expenses. This app includes a public landing page, secure user authentication, expense management with filtering, dashboard visualization using Chart.js, and CSV export functionality. 
 ## Table of Contents
 
 - [Features](#features)
