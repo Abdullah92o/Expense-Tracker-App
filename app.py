@@ -193,16 +193,33 @@ def delete_expense(expense_id):
 # Dashboard and Export Routes
 # ------------------------------
 
-# Dashboard route: shows a pie chart of expenses by category
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    # Pie chart data: expenses grouped by category
     expense_data = db.session.query(
         Expense.category, db.func.sum(Expense.amount)
     ).filter_by(user_id=current_user.id).group_by(Expense.category).all()
     labels = [row[0] for row in expense_data]
     values = [row[1] for row in expense_data]
-    return render_template('dashboard.html', labels=labels, values=values)
+
+    # Bar chart data: monthly expenses
+    # (This example uses SQLite's strftime; adjust accordingly if using another DB)
+    monthly_expenses = db.session.query(
+         db.func.strftime('%m', Expense.date).label('month'),
+         db.func.sum(Expense.amount)
+    ).filter_by(user_id=current_user.id).group_by('month').all()
+    
+    # Convert month numbers to abbreviated names and ensure all 12 months are represented:
+    from calendar import month_abbr
+    monthly_dict = {int(month): total for month, total in monthly_expenses}
+    monthlyLabels = [month_abbr[i] for i in range(1, 13)]
+    monthlyData = [monthly_dict.get(i, 0) for i in range(1, 13)]
+
+    return render_template('dashboard.html', labels=labels, values=values,
+                           monthlyLabels=monthlyLabels, monthlyData=monthlyData)
+
+
 
 # Route to export expenses as a CSV file
 @app.route('/export')
